@@ -20,3 +20,7 @@ relativtPrima a b =
 gridSize = 40
 printSgd = printIntTable gridSize gridSize (\a b -> show (sgd a b))
 printRelativePrime = printIntTable gridSize gridSize (\a b -> showCheckmark (relativtPrima a b))
+
+-- | Multiplikationstabell för kongruensklasser av heltal
+n = 11
+mods = printIntTable n n (\a b -> show (mod (a * b) n))

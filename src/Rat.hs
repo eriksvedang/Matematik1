@@ -1,6 +1,6 @@
 module Rat where
 
-import Data.List (intercalate)
+import Data.List (intercalate, (\\))
 import Sgd (sgd)
 
 -- | Infinite list of rationals, ordered by sum of terms (p/q)
@@ -29,3 +29,24 @@ printRats = do
     $ take 200
     $ filter (not . canBeShortened)
     $ allRats
+
+
+
+-- | The nth rational
+nthRat :: Integer -> (Integer, Integer) -> (Integer, Integer)
+nthRat 0 x = x
+nthRat n (p, q) | q == 1       = nthRat (n - 1) (1, p + q)
+                | otherwise    = nthRat (n - 1) (p + 1, q - 1)
+
+showcase =
+  putStrLn
+  $ intercalate ", "
+  $ map showRat
+  $ take 200
+  $ map (\n -> nthRat n (0, 1)) [0..20]
+
+
+-- | More like the mathematical definition - all the sets (in order) where for a set 'n', p+q = n
+nthSet n = [(p, q) | p <- [-n..n], q <- [-n..n] \\ [0], (p + q == n || p + q == -n) && sgd p q == 1]
+allSets = concatMap nthSet [0..]
+printNicely = putStrLn $ (intercalate ", " . map showRat . take 50) allSets
