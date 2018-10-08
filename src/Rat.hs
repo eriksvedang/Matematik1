@@ -47,6 +47,6 @@ showcase =
 
 
 -- | More like the mathematical definition - all the sets (in order) where for a set 'n', p+q = n
-nthSet n = [(p, q) | p <- [-n..n], q <- [-n..n] \\ [0], (p + q == n || p + q == -n) && sgd p q == 1]
+nthSet n = [(p, q) | p <- [-n..n], q <- [-n..n] \\ [0], (abs (p + q) == n) && sgd p q == 1]
 allSets = concatMap nthSet [0..]
 printNicely = putStrLn $ (intercalate ", " . map showRat . take 50) allSets
